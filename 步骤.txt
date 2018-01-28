@@ -1,0 +1,128 @@
+webpack的安装
+当然常规直接使用npm的形式来安装:
+
+npm install webpack -g
+npm 是Node.js的包管理工具， 这个命令就是：全局安装webpack， -g 是全局安装的意思。
+
+还可以直接安装到项目的依赖里，也就是写入package.json
+npm init 生成package.json
+npm install webpack --save-dev  生成所需文件夹
+
+举个完整的例子
+
+首先
+建立index.html文件
+建立main.js文件
+建立webpack.config.js文件
+安装live-server 并预览程序
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <script type="text/javascript" src="bundle.js"></script>
+</body>
+
+</html>
+
+main.js
+document.write("<h1>Hello World</h1>");
+
+webpack.config.js
+module.exports = {
+    entry: "./main.js",
+    output: {
+        filename: 'bundle.js'
+    }
+};
+
+安装live-server,只要用npm install就可以安装了。
+
+
+npm install live-server -g
+
+之后页面就可输出Hello World 并自动生成bundle.js（如果是有多个js例如main1.js,main2.js则html文件夹里引入两个bundle1.js,bundle2.js配置文件里这么写module.exports = {
+    entry: {
+        bundle1: './main1.js',
+        bundle2: './main2.js'
+    },
+    output: {
+        filename: '[name].js'
+    }
+};   ）
+
+
+
+通过npm来安装loader
+
+
+npm install css-loader --save-dev
+
+main.js（用require引入app.css文件）
+require('./app.css');
+document.write('<h1>Hello Webpack!</h1>');
+
+建立app.css文件，把body 的背景设置为红色。
+app.css
+body {
+    background-color: red;
+}
+
+webpack.config.js配置文件，在里边加入加载器。
+module.exports = {
+    entry: './main.js',
+    output: {
+        filename: 'bundle.js'
+    },
+    module: {
+        loaders: [
+            { test: /\.css$/, loader: 'style-loader!css-loader' },
+        ]
+    }
+};
+
+
+用npm 安装  css-loader  和style-loader
+
+
+npm install style-loader --save-dev
+
+npm install style-loader --save-dev
+
+在控制台输入 webpack 进行打包
+webpack
+这样就用webpack的加载器成功打包了css样式文件。html里就可以不用引入css语句了。
+
+cnpm 安装url-loader包。
+
+cnpm install url-loader --save-dev
+
+ugligy-js是一个用npm安装的JavaScript代码压工具，我们在grunt和gulp中经常使用。
+
+npm install uglify-js g
+
+webpack.config.js
+var webpack = require('webpack');
+module.exports = {
+    entry: './main.js',
+    output: {
+        path: __dirname,
+        filename: 'bundle.js'
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ]
+};
